@@ -27,7 +27,7 @@ interface ApiClientesService{
     @DELETE("clientes/{id}")
     suspend fun delete(@Path("id") id: Int)
 
-    @POST("clinetes")
+    @POST("clientes")
     suspend fun save (@Body cliente: Cliente) : Cliente
 }
 
