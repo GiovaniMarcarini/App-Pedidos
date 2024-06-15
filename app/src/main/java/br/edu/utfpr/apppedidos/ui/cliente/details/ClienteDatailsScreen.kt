@@ -40,9 +40,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import br.edu.utfpr.apppedidos.R
 import br.edu.utfpr.apppedidos.data.cliente.Cliente
 import br.edu.utfpr.apppedidos.data.cliente.Endereco
+import br.edu.utfpr.apppedidos.extensions.toFormattedCep
+import br.edu.utfpr.apppedidos.extensions.toFormattedCpf
+import br.edu.utfpr.apppedidos.extensions.toFormattedTelefone
 import br.edu.utfpr.apppedidos.ui.theme.AppPedidosTheme
 import br.edu.utfpr.apppedidos.ui.utils.composables.DefaultErrorLoading
-import br.edu.utfpr.apppedidos.ui.utils.composables.DefaultLoaing
+import br.edu.utfpr.apppedidos.ui.utils.composables.DefaultLoading
 
 @Composable
 fun ClienteDetailsScreen(
@@ -50,7 +53,8 @@ fun ClienteDetailsScreen(
     viewModel: ClienteDetailsViewModel = viewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onBackPressed: () -> Unit,
-    onClienteDeleted: () -> Unit
+    onClienteDeleted: () -> Unit,
+    onEditPressed: () -> Unit
 ) {
     LaunchedEffect(viewModel.uiState.clienteDeleted) {
         if (viewModel.uiState.clienteDeleted) {
@@ -81,13 +85,13 @@ fun ClienteDetailsScreen(
                 showActions = viewModel.uiState.isSuccessLoading,
                 isProcessing = viewModel.uiState.isDeleting,
                 onBackPressed = onBackPressed,
-                onEditPressed = {},
+                onEditPressed = onEditPressed,
                 onDeletePressed = viewModel::showConfirmationDialog
             )
         }
     ) { innerPadding ->
         if (viewModel.uiState.isLoading) {
-            DefaultLoaing(
+            DefaultLoading(
                 modifier = Modifier.padding(innerPadding),
                 text = stringResource(id = R.string.carregando)
             )
@@ -216,41 +220,41 @@ fun ClienteDetails(
     ) {
         ClienteTitle(text = "${stringResource(R.string.codigo)} - ${cliente.id}")
         ClienteAttribute(
-            attributeName = "Nome",
+            attributeName = stringResource(R.string.nome),
             attributeValue = cliente.nome
         )
         ClienteAttribute(
-            attributeName = "CPF",
-            attributeValue = cliente.cpf
+            attributeName = stringResource(R.string.cpf),
+            attributeValue = cliente.cpf.toFormattedCpf()
         )
         ClienteAttribute(
-            attributeName = "Telefone",
-            attributeValue = cliente.telefone
+            attributeName = stringResource(R.string.telefone),
+            attributeValue = cliente.telefone.toFormattedTelefone()
         )
         HorizontalDivider(modifier = Modifier.padding(top = 8.dp))
-        ClienteTitle(text = "Endereço")
+        ClienteTitle(text = stringResource(R.string.endereco))
         ClienteAttribute(
-            attributeName = "CEP",
+            attributeName = stringResource(R.string.cep),
+            attributeValue = cliente.endereco.cep.toFormattedCep()
+        )
+        ClienteAttribute(
+            attributeName = stringResource(R.string.logradouro),
             attributeValue = cliente.endereco.cep
         )
         ClienteAttribute(
-            attributeName = "Logradouro",
-            attributeValue = cliente.endereco.cep
-        )
-        ClienteAttribute(
-            attributeName = "Número",
+            attributeName = stringResource(R.string.numero),
             attributeValue = cliente.endereco.numero.toString()
         )
         ClienteAttribute(
-            attributeName = "Complemento",
+            attributeName = stringResource(R.string.complemento),
             attributeValue = cliente.endereco.complemento
         )
         ClienteAttribute(
-            attributeName = "Bairro",
+            attributeName = stringResource(R.string.bairro),
             attributeValue = cliente.endereco.bairro
         )
         ClienteAttribute(
-            attributeName = "Cidade",
+            attributeName = stringResource(R.string.cidade),
             attributeValue = cliente.endereco.cidade
         )
     }
