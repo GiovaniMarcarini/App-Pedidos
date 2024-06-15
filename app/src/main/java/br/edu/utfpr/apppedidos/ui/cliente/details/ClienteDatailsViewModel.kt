@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.edu.utfpr.apppedidos.data.cliente.Cliente
 import br.edu.utfpr.apppedidos.data.network.ApiService
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class ClienteDetailsUiState(
@@ -42,7 +41,6 @@ class ClienteDetailsViewModel(
             hasErrorLoading = false,
         )
         viewModelScope.launch {
-            delay(2000)
             uiState = try {
                 uiState.copy(
                     isLoading = false,
@@ -78,7 +76,6 @@ class ClienteDetailsViewModel(
         )
         viewModelScope.launch {
             uiState = try {
-                delay(2000)
                 ApiService.clientes.delete(clienteId)
                 uiState.copy(
                     isDeleting = false,
