@@ -12,6 +12,7 @@ import br.edu.utfpr.apppedidos.R
 import br.edu.utfpr.apppedidos.data.cliente.Cliente
 import br.edu.utfpr.apppedidos.data.cliente.Endereco
 import br.edu.utfpr.apppedidos.data.network.ApiService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -80,6 +81,7 @@ class ClienteFormViewModel(
             clienteId = clienteId
         )
         viewModelScope.launch {
+            delay(2000)
             uiState = try {
                 val cliente = ApiService.clientes.findById(clienteId)
                 uiState.copy(
@@ -197,6 +199,7 @@ class ClienteFormViewModel(
                     )
                 )
                 viewModelScope.launch {
+                    delay(2000)
                     uiState = try {
                         val cep = ApiService.cep.findByCep(newCep)
                         uiState.copy(
@@ -289,6 +292,7 @@ class ClienteFormViewModel(
             hasErrorSaving = false
         )
         viewModelScope.launch {
+            delay(2000)
             val cliente = Cliente(
                 id = clienteId,
                 nome = uiState.formState.nome.value,
